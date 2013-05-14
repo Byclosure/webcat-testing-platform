@@ -1,0 +1,10 @@
+package com.byclosure.webcattestingplatform;
+
+import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
+
+/**
+ *
+ */
+public interface IPageObjectFactory<P extends IPageObject> {
+    P build(NavigationService navigationService);
+}

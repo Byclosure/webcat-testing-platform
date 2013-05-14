@@ -11,8 +11,8 @@
     </properties>
 
     <scm>
-        <connection>scm:git:ssh://bitbucket.org:byclosure/webcat-testing-platform.git</connection>
-        <developerConnection>scm:git:ssh://bitbucket.org:byclosure/webcat-testing-platform.git</developerConnection>
+        <connection>scm:git:https://boliveirapinto@bitbucket.org/byclosure/webcat-testing-platform.git</connection>
+        <developerConnection>scm:git:https://boliveirapinto@bitbucket.org/byclosure/webcat-testing-platform.git</developerConnection>
         <tag>release</tag>
     </scm>
 

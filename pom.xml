@@ -6,7 +6,17 @@
 
     <groupId>com.byclosure</groupId>
     <artifactId>webcat-testing-platform</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <scm>
+        <connection>scm:git:ssh://bitbucket.org:byclosure/webcat-testing-platform.git</connection>
+        <developerConnection>scm:git:ssh://bitbucket.org:byclosure/webcat-testing-platform.git</developerConnection>
+        <tag>release</tag>
+    </scm>
 
     <dependencies>
         <dependency>

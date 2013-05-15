@@ -78,4 +78,18 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>byclosure_releases</id>
+            <name>Byclosure Releases</name>
+            <url>http://erestor.vps.byclosure.com:8080/nexus/content/repositories/releases</url>
+        </repository>
+        <!-- repository used if the project version ends with "SNAPSHOT" -->
+        <snapshotRepository>
+            <id>byclosure_snapshots</id>
+            <name>Byclosure Snapshots</name>
+            <url>http://erestor.vps.byclosure.com:8080/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>

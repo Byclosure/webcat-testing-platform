@@ -1,7 +1,6 @@
 package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.exceptions.InvalidWebDriverInstanceException;
-import com.sun.istack.internal.Nullable;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -45,8 +44,7 @@ public class Downloader {
 
         WebDriverWait wait = new WebDriverWait(driver, WAITING_TIME);
         String file = wait.until(new ExpectedCondition<String>() {
-            @Nullable
-            public String apply(@Nullable WebDriver driver) {
+            public String apply(WebDriver driver) {
                 String obj = (String) ((JavascriptExecutor) driver).executeScript("return window." + windowResponseVar);
                 if(obj == null) {
                     throw new NoSuchElementException("Object Not Found");

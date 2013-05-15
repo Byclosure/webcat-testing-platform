@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 /**
@@ -36,7 +38,11 @@ public class Downloader {
      * @return
      */
     public Base64String downloadFile(String url) {
-        //TODO protect against an invalid URL
+        try {
+            new URL(url);
+        } catch(MalformedURLException ex) {
+            throw new RuntimeException("The given URL is invalid", ex);
+        }
 
         final String windowResponseVar = "rsp_variable" + new Date().getTime();
 

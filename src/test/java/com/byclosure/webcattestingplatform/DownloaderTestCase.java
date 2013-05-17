@@ -49,10 +49,10 @@ public class DownloaderTestCase {
         Assert.assertFalse(fileBase64.toString().startsWith("data:application/octet-stream;base64,"));
     }
 
-//    @Test
-//    public void failingTest() {
-//        Assert.fail();
-//    }
+    @Test
+    public void failingTest() {
+        Assert.fail();
+    }
 
 
 }

@@ -46,7 +46,7 @@ public class DownloaderTestCase {
         Downloader downloader = new Downloader(driver);
         Base64String fileBase64 = downloader.downloadFile("http://someurl.com/");
 
-        Assert.assertFalse(fileBase64.toString().startsWith("data:application/octet-stream;base64"));
+        Assert.assertFalse(fileBase64.toString().startsWith("data:application/octet-stream;base64,"));
     }
 
 //    @Test

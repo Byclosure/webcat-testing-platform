@@ -59,7 +59,7 @@ public class Downloader {
             }
         });
 
-        return new Base64String(file.replace("data:application/octet-stream;base64,", ""));
+        return new Base64String(file.replaceAll("^(data):[a-z]+/[a-z]+-?[a-z]+;base64,", ""));
     }
 
     private String getDownloadScript(String windowResponseVar, String url) {

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * This class implements a downloader to use when there is a need to download a file from the server.
@@ -41,17 +42,17 @@ public class Downloader {
         try {
             new URL(url);
         } catch(MalformedURLException ex) {
-            throw new RuntimeException("The given URL is invalid", ex);
+            throw new RuntimeException("The given URL (" + url + ") is invalid", ex);
         }
 
-        final String windowResponseVar = "rsp_variable" + new Date().getTime();
+        final String windowResponseVar = generateUniqueVariableName();
 
         ((JavascriptExecutor) driver).executeScript(getDownloadScript(windowResponseVar, url));
 
         WebDriverWait wait = new WebDriverWait(driver, WAITING_TIME);
         String file = wait.until(new ExpectedCondition<String>() {
             public String apply(WebDriver driver) {
-                String obj = (String) ((JavascriptExecutor) driver).executeScript("return window." + windowResponseVar);
+                String obj = (String) ((JavascriptExecutor) driver).executeScript("return window['" + windowResponseVar+ "']");
                 if(obj == null) {
                     throw new NoSuchElementException("Object Not Found");
                 }
@@ -60,6 +61,10 @@ public class Downloader {
         });
 
         return new Base64String(file.replaceAll("^(data):[a-z]+/[a-z]+-?[a-z]+;base64,", ""));
+    }
+
+    private String generateUniqueVariableName() {
+        return "___rsp_variable_" + new Date().getTime();
     }
 
     private String getDownloadScript(String windowResponseVar, String url) {
@@ -72,7 +77,7 @@ public class Downloader {
                 "        if(this.status == 200) {\n"+
                 "            var reader = new FileReader();\n"+
                 "            reader.onload = function(e) {\n"+
-                "                window." + windowResponseVar + " = event.target.result;\n"+
+                "                window['" + windowResponseVar + "'] = event.target.result;\n"+
                 "            }\n"+
                 "            reader.readAsDataURL(this.response);\n"+
                 "        }\n"+

@@ -36,9 +36,7 @@ public class Base64String {
     }
 
     public byte[] decodeAsByteArray() {
-        if(b64String == null) {
-            return new byte[]{};
-        }
+        if(b64String == null) return new byte[]{};
 
         return Base64.decodeBase64(b64String);
     }

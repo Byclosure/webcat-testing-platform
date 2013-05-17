@@ -24,7 +24,7 @@ public class DownloaderTestCase {
 
     private void mockCalls() {
         when(driver.executeScript(Matchers.startsWith("(function()"))).thenReturn(null);
-        when(driver.executeScript(Matchers.startsWith("return window."))).thenReturn("data:application/octet-stream;base64,ThisIsAMockOfABase64String");
+        when(driver.executeScript(Matchers.startsWith("return window"))).thenReturn("data:application/octet-stream;base64,ThisIsAMockOfABase64String");
     }
 
     @Test(expected = InvalidWebDriverInstanceException.class)

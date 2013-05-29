@@ -1,7 +1,9 @@
 package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.exceptions.InvalidWebDriverInstanceException;
+import com.byclosure.webcattestingplatform.exceptions.URLMalformedException;
 import junit.framework.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -12,19 +14,19 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.mockito.Mockito.when;
 
-public class DownloaderTestCase {
+public class TestDownloaderInitialization {
 
     @Mock private RemoteWebDriver driver;
 
-    public DownloaderTestCase() {
+    @Before
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-
         mockCalls();
     }
 
     private void mockCalls() {
         when(driver.executeScript(Matchers.startsWith("(function()"))).thenReturn(null);
-        when(driver.executeScript(Matchers.startsWith("return window"))).thenReturn("data:application/octet-stream;base64,ThisIsAMockOfABase64String");
+
     }
 
     @Test(expected = InvalidWebDriverInstanceException.class)
@@ -34,25 +36,10 @@ public class DownloaderTestCase {
         new Downloader(webDriver);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = URLMalformedException.class)
     public void itShould_ThrowException_WhenTryToDownloadFromInvalidURL() {
         Downloader downloader = new Downloader(driver);
 
         downloader.downloadFile("htp:someinvalidURL");
     }
-
-    @Test
-    public void itShould_NotReturnContentType_InTheBeginOfFile() {
-        Downloader downloader = new Downloader(driver);
-        Base64String fileBase64 = downloader.downloadFile("http://someurl.com/");
-
-        Assert.assertFalse(fileBase64.toString().startsWith("data:application/octet-stream;base64,"));
-    }
-
-//    @Test
-//    public void failingTest() {
-//        Assert.fail();
-//    }
-
-
 }

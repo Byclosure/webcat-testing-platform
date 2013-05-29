@@ -2,7 +2,7 @@ package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.criterias.ICriteria;
 import com.byclosure.webcattestingplatform.exceptions.InvalidPageObjectException;
-import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFound;
+import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
 import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class NavigationService {
             throw new InvalidPageObjectException("Page Object " + name + " is not registered.");
         }
 
-        if (pageObject == null) throw new PageObjectNotFound("Could not find Page Object " + name);
+        if (pageObject == null) throw new PageObjectNotFoundException("Could not find Page Object " + name);
         return pageObject;
     }
 

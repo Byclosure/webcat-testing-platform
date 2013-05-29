@@ -1,6 +1,8 @@
 package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.exceptions.InvalidWebDriverInstanceException;
+import com.byclosure.webcattestingplatform.exceptions.URLMalformedException;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -39,11 +41,8 @@ public class Downloader {
      * @return
      */
     public Base64String downloadFile(String url) {
-        try {
-            new URL(url);
-        } catch(MalformedURLException ex) {
-            throw new RuntimeException("The given URL (" + url + ") is invalid", ex);
-        }
+        UrlValidator validator = new UrlValidator();
+        if(!validator.isValid(url)) throw new URLMalformedException("The given URL (" + url + ") is invalid");
 
         final String windowResponseVar = generateUniqueVariableName();
 
@@ -60,7 +59,7 @@ public class Downloader {
             }
         });
 
-        return new Base64String(file.replaceAll("^(data):[a-z]+/[a-z]+-?[a-z]+;base64,", ""));
+        return new Base64String(Utils.removeHeaderFromBase64File(file));
     }
 
     private String generateUniqueVariableName() {

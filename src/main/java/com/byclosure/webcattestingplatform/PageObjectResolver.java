@@ -1,7 +1,7 @@
 package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.criterias.ICriteria;
-import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFound;
+import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
 import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class PageObjectResolver {
                 logger.fine("Going to sleep");
                 Thread.sleep(Configs.SLEEP_IN_MILLIS);
             } catch (InterruptedException e) {
-                throw new PageObjectNotFound(e);
+                throw new PageObjectNotFoundException(e);
             }
             secs--;
         }

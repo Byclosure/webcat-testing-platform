@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  *
  */
-public class TestUtilsMethods {
+public class TestRemoveHeaderFromBase64FileUtilsMethod {
 
     @Test
     public void itShould_NotReturnContentType_InTheBeginOfFile() {

@@ -5,6 +5,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({TestDownloaderInitialization.class,
-                    TestUtilsMethods.class})
+                    TestRemoveHeaderFromBase64FileUtilsMethod.class})
 public class ClientSuite {
 }

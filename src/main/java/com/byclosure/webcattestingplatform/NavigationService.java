@@ -4,6 +4,9 @@ import com.byclosure.webcattestingplatform.criterias.ICriteria;
 import com.byclosure.webcattestingplatform.exceptions.InvalidPageObjectException;
 import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
 import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,16 +20,19 @@ public class NavigationService {
 
     private final List<CriteriaMapper> errorPageObjectCriterias;
 
+    private final WebDriver driver;
+
 
     public NavigationService(List<CriteriaMapper> errorPageObjectCriterias,
-                             Map<String, PageObjectResolver> errorPageObjects) {
+                             Map<String, PageObjectResolver> errorPageObjects, WebDriver driver) {
         this.errorPageObjectCriterias = errorPageObjectCriterias;
         this.errorPageObjects = errorPageObjects;
         this.pageObjectResolverMapper = new HashMap<String, PageObjectResolver>();
+        this.driver = driver;
     }
 
-    public NavigationService() {
-        this(new ArrayList<CriteriaMapper>(), new HashMap<String, PageObjectResolver>());
+    public NavigationService(WebDriver driver) {
+        this(new ArrayList<CriteriaMapper>(), new HashMap<String, PageObjectResolver>(), driver);
     }
 
     public NavigationService register(String pageObjectName, ICriteria criteria, IPageObjectFactory pageFactory) {
@@ -38,13 +44,13 @@ public class NavigationService {
             pageObjectResolverMapper.put(pageObjectName, pageFactoryService);
         }
 
-        NavigationService navigationService = new NavigationService(errorPageObjectCriterias, errorPageObjects);
+        NavigationService navigationService = new NavigationService(errorPageObjectCriterias, errorPageObjects, driver);
 
         return pageFactoryService.register(criteria, pageFactory, navigationService);
     }
 
     public void registerErrorPage(String pageObjectName, ICriteria criteria, IPageObjectFactory pageFactory) {
-        NavigationService navigationService = new NavigationService(errorPageObjectCriterias, errorPageObjects);
+        NavigationService navigationService = new NavigationService(errorPageObjectCriterias, errorPageObjects, driver);
         errorPageObjectCriterias.add(new CriteriaMapper(criteria,
                 navigationService, pageFactory));
 
@@ -54,15 +60,18 @@ public class NavigationService {
 
     public <P extends IPageObject> P getPage(String name) {
         final P pageObject;
-        if (pageObjectResolverMapper.containsKey(name)) {
-            pageObject = pageObjectResolverMapper.get(name).getCurrentPage();
-        } else if (errorPageObjects.containsKey(name)) {
-            pageObject = errorPageObjects.get(name).getCurrentPage();
-        } else {
-            throw new InvalidPageObjectException("Page Object " + name + " is not registered.");
+        try {
+            if (pageObjectResolverMapper.containsKey(name)) {
+                pageObject = pageObjectResolverMapper.get(name).getCurrentPage(driver);
+            } else if (errorPageObjects.containsKey(name)) {
+                pageObject = errorPageObjects.get(name).getCurrentPage(driver);
+            } else {
+                throw new InvalidPageObjectException("Page Object " + name + " is not registered.");
+            }
+        } catch(TimeoutException e) {
+            throw new PageObjectNotFoundException("Could not find Page Object " + name);
         }
 
-        if (pageObject == null) throw new PageObjectNotFoundException("Could not find Page Object " + name);
         return pageObject;
     }
 

@@ -2,19 +2,14 @@ package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.criterias.Criteria;
 import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
-import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
 import com.byclosure.webcattestingplatform.pageobjects.PageObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.net.URL;
-
-public class TestNavigationServiceGetPage {
+public class NavigationServiceWithDummyPageObject {
 
     @Mock private WebDriver driver;
     private NavigationService navigationService;

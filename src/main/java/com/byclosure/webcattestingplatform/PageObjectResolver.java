@@ -1,7 +1,6 @@
 package com.byclosure.webcattestingplatform;
 
 import com.byclosure.webcattestingplatform.criterias.ICriteria;
-import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
 import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -35,7 +34,6 @@ public class PageObjectResolver {
     }
 
     public <P extends IPageObject> P getCurrentPage(WebDriver driver){
-        int secs = Configs.WAIT_IN_SECS;
 
         final List<CriteriaMapper> allPageObjects = new ArrayList<CriteriaMapper>();
         allPageObjects.addAll(pageObjectMapper);
@@ -55,26 +53,6 @@ public class PageObjectResolver {
                 throw new NoSuchElementException("No matching criterias");
             }
         });
-
-//        while(secs>0) {
-//            for(CriteriaMapper pageObjectMap : allPageObjects) {
-//                if(pageObjectMap.getCriteria().match()) {
-//                    final NavigationService navigationService = pageObjectMap.getNavigationService();
-//                    final IPageObjectFactory factory = pageObjectMap.getPageObjectFactory();
-//
-//                    return factory.build(navigationService).cast();
-//                }
-//            }
-//            try {
-//                logger.fine("Going to sleep");
-//                Thread.sleep(Configs.SLEEP_IN_MILLIS);
-//            } catch (InterruptedException e) {
-//                throw new PageObjectNotFoundException(e);
-//            }
-//            secs--;
-//        }
-//
-//        return null;
     }
 
     public List<CriteriaMapper> getPageObjectCriterias() {

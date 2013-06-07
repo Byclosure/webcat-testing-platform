@@ -6,7 +6,6 @@ import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundExceptio
 import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.FluentWait;
 
 import java.util.ArrayList;
 import java.util.HashMap;

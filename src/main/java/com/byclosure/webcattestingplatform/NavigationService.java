@@ -4,15 +4,25 @@ import com.byclosure.webcattestingplatform.criterias.ICriteria;
 import com.byclosure.webcattestingplatform.exceptions.InvalidPageObjectException;
 import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
 import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NavigationService {
+    /**
+     * The time you wait for a page to load
+     */
+    public static final int WAIT_IN_SECS = 60;
+    /**
+     * The Explicit wait time (i.e. the time you wait for a certain condition to be satisfied)
+     */
+    public static final int EXPLICIT_WAIT_IN_SECS = 30;
+
+    static int WAIT;
+    static int EXPLICITWAIT;
 
     private final Map<String, PageObjectResolver> pageObjectResolverMapper;
     private final Map<String, PageObjectResolver> errorPageObjects;
@@ -21,9 +31,17 @@ public class NavigationService {
 
     private final WebDriver driver;
 
-
     public NavigationService(List<CriteriaMapper> errorPageObjectCriterias,
                              Map<String, PageObjectResolver> errorPageObjects, WebDriver driver) {
+        this(errorPageObjectCriterias, errorPageObjects, driver, WAIT_IN_SECS, EXPLICIT_WAIT_IN_SECS);
+    }
+
+    public NavigationService(List<CriteriaMapper> errorPageObjectCriterias,
+                             Map<String, PageObjectResolver> errorPageObjects, WebDriver driver,
+                             int waitInSecs, int explicitWaitInSecs) {
+        WAIT = waitInSecs;
+        EXPLICITWAIT = explicitWaitInSecs;
+
         this.errorPageObjectCriterias = errorPageObjectCriterias;
         this.errorPageObjects = errorPageObjects;
         this.pageObjectResolverMapper = new HashMap<String, PageObjectResolver>();

@@ -39,7 +39,7 @@ public class PageObjectResolver {
         allPageObjects.addAll(pageObjectMapper);
         allPageObjects.addAll(errorPageObjects);
 
-        WebDriverWait wait = new WebDriverWait(driver, Configs.WAIT_IN_SECS);
+        WebDriverWait wait = new WebDriverWait(driver, NavigationService.WAIT);
         return wait.until(new ExpectedCondition<P>() {
             public P apply(org.openqa.selenium.WebDriver webDriver) {
                     for(CriteriaMapper pageObjectMap : allPageObjects) {

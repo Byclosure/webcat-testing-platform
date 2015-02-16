@@ -20,6 +20,7 @@ See the section [What are page objects and how to write them?](http://www.webcat
 #Contributing#
 We are happy to accept contributions.
 To contribute to this library, do the following:
+
 1. Fork the repository
 2. Create a new branch
 3. Write your code in the new branch (tests included)

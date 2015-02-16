@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.byclosure</groupId>
+    <groupId>com.byclosure.webcat</groupId>
     <artifactId>webcat-testing-platform</artifactId>
     <name>Webcat Testing Platform</name>
-    <version>0.0.10-SNAPSHOT</version>
+    <version>0.0.10</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -13,14 +13,14 @@
     </properties>
 
     <scm>
-        <connection>scm:git:git@bitbucket.org:byclosure/webcat-testing-platform.git</connection>
-        <developerConnection>scm:git:git@bitbucket.org:byclosure/webcat-testing-platform.git</developerConnection>
+        <connection>scm:git:git@github.org:byclosure/webcat-testing-platform.git</connection>
+        <developerConnection>scm:git:git@github.org:byclosure/webcat-testing-platform.git</developerConnection>
     </scm>
 
     <licenses>
         <license>
-            <name>Closed Source</name>
-            <url>---</url>
+            <name>MIT</name>
+            <url>http://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
 
@@ -89,19 +89,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>byclosure_releases</id>
-            <name>Byclosure Releases</name>
-            <url>http://erestor.vps.byclosure.com:8080/nexus/content/repositories/releases</url>
-        </repository>
-        <!-- repository used if the project version ends with "SNAPSHOT" -->
-        <snapshotRepository>
-            <id>byclosure_snapshots</id>
-            <name>Byclosure Snapshots</name>
-            <url>http://erestor.vps.byclosure.com:8080/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 </project>

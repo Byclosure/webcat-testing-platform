@@ -4,17 +4,17 @@
 
     <groupId>com.byclosure.webcat</groupId>
     <artifactId>webcat-testing-platform</artifactId>
-    <name>Webcat Testing Platform</name>
     <version>0.0.10</version>
     <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>Webcat Testing Platform</name>
+    <description>A library that eases the development of tests using selenium.</description>
+    <url>http://www.webcat.byclosure.com/</url>
 
     <scm>
         <connection>scm:git:git@github.org:byclosure/webcat-testing-platform.git</connection>
         <developerConnection>scm:git:git@github.org:byclosure/webcat-testing-platform.git</developerConnection>
+        <url>git@github.com:Byclosure/webcat-testing-platform.git</url>
     </scm>
 
     <licenses>
@@ -24,11 +24,18 @@
         </license>
     </licenses>
 
-    <organization>
-        <name>Byclosure</name>
-        <url>http://byclosure.com</url>
-    </organization>
+    <developers>
+        <developer>
+            <name>Byclosure</name>
+            <email>info@byclosure.com</email>
+            <organization>Byclosure</organization>
+            <organizationUrl>http://www.byclosure.com</organizationUrl>
+        </developer>
+    </developers>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -63,7 +70,6 @@
             <artifactId>commons-validator</artifactId>
             <version>1.4.0</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -87,6 +93,79 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -3,7 +3,7 @@ It eases the development of Page Objects by implementing an engine for navigatin
 
 This library is part of the [Webcat Project](http://www.webcat.byclosure.com/).
 
-#Instalation#
+#Installation#
 To install this library, add the following to your `pom.xml`.
 
 ```

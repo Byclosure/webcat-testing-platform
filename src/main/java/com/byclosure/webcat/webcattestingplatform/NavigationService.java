@@ -1,13 +1,11 @@
-package com.byclosure.webcattestingplatform;
+package com.byclosure.webcat.webcattestingplatform;
 
-import com.byclosure.webcattestingplatform.criterias.ICriteria;
-import com.byclosure.webcattestingplatform.exceptions.InvalidPageObjectException;
-import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
-import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
-import org.openqa.selenium.By;
+import com.byclosure.webcat.webcattestingplatform.exceptions.InvalidPageObjectException;
+import com.byclosure.webcat.webcattestingplatform.exceptions.PageObjectNotFoundException;
+import com.byclosure.webcat.webcattestingplatform.pageobjects.IPageObject;
+import com.byclosure.webcat.webcattestingplatform.criterias.ICriteria;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.*;
 

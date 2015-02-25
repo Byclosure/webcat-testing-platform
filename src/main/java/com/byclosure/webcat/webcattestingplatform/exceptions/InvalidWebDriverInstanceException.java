@@ -1,4 +1,4 @@
-package com.byclosure.webcattestingplatform.exceptions;
+package com.byclosure.webcat.webcattestingplatform.exceptions;
 
 public class InvalidWebDriverInstanceException extends RuntimeException {
 

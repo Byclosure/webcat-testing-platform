@@ -1,7 +1,7 @@
-package com.byclosure.webcattestingplatform;
+package com.byclosure.webcat.webcattestingplatform;
 
-import com.byclosure.webcattestingplatform.exceptions.InvalidWebDriverInstanceException;
-import com.byclosure.webcattestingplatform.exceptions.URLMalformedException;
+import com.byclosure.webcat.webcattestingplatform.exceptions.InvalidWebDriverInstanceException;
+import com.byclosure.webcat.webcattestingplatform.exceptions.URLMalformedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

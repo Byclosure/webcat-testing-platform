@@ -1,8 +1,8 @@
-package com.byclosure.webcattestingplatform;
+package com.byclosure.webcat.webcattestingplatform;
 
-import com.byclosure.webcattestingplatform.criterias.Criteria;
-import com.byclosure.webcattestingplatform.exceptions.PageObjectNotFoundException;
-import com.byclosure.webcattestingplatform.pageobjects.PageObject;
+import com.byclosure.webcat.webcattestingplatform.criterias.Criteria;
+import com.byclosure.webcat.webcattestingplatform.exceptions.PageObjectNotFoundException;
+import com.byclosure.webcat.webcattestingplatform.pageobjects.PageObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

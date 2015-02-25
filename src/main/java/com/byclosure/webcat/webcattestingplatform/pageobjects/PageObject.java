@@ -1,7 +1,7 @@
-package com.byclosure.webcattestingplatform.pageobjects;
+package com.byclosure.webcat.webcattestingplatform.pageobjects;
 
-import com.byclosure.webcattestingplatform.NavigationService;
-import com.byclosure.webcattestingplatform.exceptions.InvalidPageObjectException;
+import com.byclosure.webcat.webcattestingplatform.NavigationService;
+import com.byclosure.webcat.webcattestingplatform.exceptions.InvalidPageObjectException;
 import org.openqa.selenium.WebDriver;
 
 public abstract class PageObject implements IPageObject {

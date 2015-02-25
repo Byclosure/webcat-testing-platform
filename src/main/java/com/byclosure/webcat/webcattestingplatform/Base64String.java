@@ -1,4 +1,4 @@
-package com.byclosure.webcattestingplatform;
+package com.byclosure.webcat.webcattestingplatform;
 
 import org.apache.commons.codec.binary.Base64;
 

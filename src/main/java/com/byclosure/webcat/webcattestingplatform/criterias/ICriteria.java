@@ -1,4 +1,4 @@
-package com.byclosure.webcattestingplatform.criterias;
+package com.byclosure.webcat.webcattestingplatform.criterias;
 
 /**
  *

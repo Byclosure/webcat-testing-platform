@@ -1,4 +1,4 @@
-package com.byclosure.webcattestingplatform.pageobjects;
+package com.byclosure.webcat.webcattestingplatform.pageobjects;
 
 /**
  *

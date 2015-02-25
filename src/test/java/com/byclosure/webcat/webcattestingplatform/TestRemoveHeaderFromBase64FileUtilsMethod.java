@@ -1,4 +1,4 @@
-package com.byclosure.webcattestingplatform;
+package com.byclosure.webcat.webcattestingplatform;
 
 import junit.framework.Assert;
 import org.junit.Test;

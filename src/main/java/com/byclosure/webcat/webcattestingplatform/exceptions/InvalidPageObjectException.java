@@ -1,6 +1,6 @@
-package com.byclosure.webcattestingplatform.exceptions;
+package com.byclosure.webcat.webcattestingplatform.exceptions;
 
-import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
+import com.byclosure.webcat.webcattestingplatform.pageobjects.IPageObject;
 
 
 /**

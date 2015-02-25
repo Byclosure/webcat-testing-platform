@@ -1,7 +1,7 @@
-package com.byclosure.webcattestingplatform;
+package com.byclosure.webcat.webcattestingplatform;
 
-import com.byclosure.webcattestingplatform.criterias.ICriteria;
-import com.byclosure.webcattestingplatform.pageobjects.IPageObject;
+import com.byclosure.webcat.webcattestingplatform.criterias.ICriteria;
+import com.byclosure.webcat.webcattestingplatform.pageobjects.IPageObject;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;

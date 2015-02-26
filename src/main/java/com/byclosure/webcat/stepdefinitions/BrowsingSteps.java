@@ -1,6 +1,8 @@
 package com.byclosure.webcat.stepdefinitions;
 
 import com.byclosure.webcat.context.Context;
+import com.byclosure.webcat.context.IContext;
+import com.byclosure.webcat.stepdefinitions.helpers.SelectorHelpers;
 import com.google.inject.Inject;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,8 +13,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.internal.selenesedriver.TakeScreenshot;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,10 +20,13 @@ import java.util.regex.Pattern;
 public class BrowsingSteps {
     
     private final WebDriver driver;
-    
+    private final IContext context;
+
+
     @Inject
-    public BrowsingSteps(WebDriver driver){
+    public BrowsingSteps(WebDriver driver, IContext context){
         this.driver = driver;
+        this.context = context;
     }
     
     @Given("^(?:|I )am on (.+)$")
@@ -46,8 +49,7 @@ public class BrowsingSteps {
     
     @When("^(?:|I )follow \"([^\"]*)\"$")
     public void followLink(String link) throws UnsupportedEncodingException {
-        final String encodedLink = URLEncoder.encode(link, Charset.defaultCharset().name());
-        WebElement linkElement = driver.findElement(By.cssSelector("a[href='" + encodedLink + "']"));
+        WebElement linkElement = SelectorHelpers.findLinkElement(driver, link);
         linkElement.click();
 
         takeScreenshot(driver);
@@ -116,10 +118,9 @@ public class BrowsingSteps {
         takeScreenshot(driver);
         Assert.assertEquals(0, elements.size());
     }
-    
-    private static void takeScreenshot(WebDriver driver) {
+
+    private void takeScreenshot(WebDriver driver) {
         if(driver instanceof TakeScreenshot) {
-            final Context context = Context.getInstance();
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             context.addScreenshot(screenshot);
         }

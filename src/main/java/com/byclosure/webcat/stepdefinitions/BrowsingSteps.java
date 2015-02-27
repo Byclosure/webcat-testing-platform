@@ -1,32 +1,29 @@
 package com.byclosure.webcat.stepdefinitions;
 
-import com.byclosure.webcat.context.Context;
 import com.byclosure.webcat.context.IContext;
-import com.byclosure.webcat.stepdefinitions.helpers.SelectorHelpers;
+import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
 import com.google.inject.Inject;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.junit.Assert;
-import org.openqa.selenium.*;
-import org.openqa.selenium.internal.selenesedriver.TakeScreenshot;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class BrowsingSteps {
     
     private final WebDriver driver;
-    private final IContext context;
-
+    private final SeleniumInteractions seleniumInteractions;
 
     @Inject
     public BrowsingSteps(WebDriver driver, IContext context){
         this.driver = driver;
-        this.context = context;
+        this.seleniumInteractions = new SeleniumInteractions(driver, context);
     }
     
     @Given("^(?:|I )am on (.+)$")
@@ -44,15 +41,14 @@ public class BrowsingSteps {
         urlValidator.isValid(url);
         driver.get(url);
 
-        takeScreenshot(driver);
+        seleniumInteractions.takeScreenshot();
     }
     
     @When("^(?:|I )follow \"([^\"]*)\"$")
     public void followLink(String link) throws UnsupportedEncodingException {
-        WebElement linkElement = SelectorHelpers.findLinkElement(driver, link);
-        linkElement.click();
+        seleniumInteractions.clickLink(link);
 
-        takeScreenshot(driver);
+        seleniumInteractions.takeScreenshot();
     }
     
     @Then("^I should be redirected to (.+)$")
@@ -62,40 +58,34 @@ public class BrowsingSteps {
     
     @Then("^(?:|I )should see \"([^\"]*)\"$")
     public void shouldSee(String text) {
-        final WebElement body = driver.findElement(By.xpath("//*"));
+        boolean contentExists = seleniumInteractions.searchForContent(text);
 
-        takeScreenshot(driver);
-        Assert.assertTrue(body.isDisplayed() && body.getText().contains(text));
+        seleniumInteractions.takeScreenshot();
+        Assert.assertTrue(contentExists);
     }
 
     @Then("^(?:|I )should not see \"([^\"]*)\"$")
     public void shouldNotSee(String text) {
-        final WebElement body = driver.findElement(By.xpath("//*"));
+        boolean contentExists = seleniumInteractions.searchForContent(text);
 
-        takeScreenshot(driver);
-        Assert.assertFalse(body.isDisplayed() && body.getText().contains(text));
+        seleniumInteractions.takeScreenshot();
+        Assert.assertFalse(contentExists);
     }
 
     @Then("^(?:|I )should see \\/([^\\/]*)\\/([imx])?$")
     public void shouldSeeRegexp(String regexp, String flags) {
-        final WebElement body = driver.findElement(By.xpath("//*"));
-        final String bodyContent = body.getText();
-        Matcher matcher = buildMatcherForContent(regexp, flags, bodyContent);
-
-        takeScreenshot(driver);
+        boolean contentExists = seleniumInteractions.searchForContent(regexp, flags);
+        seleniumInteractions.takeScreenshot();
         
-        Assert.assertTrue(body.isDisplayed() && matcher.matches());
+        Assert.assertTrue(contentExists);
     }
     
     @Then("^(?:|I )should not see \\/([^\\/]*)\\/([imxo])?$")
     public void shouldNotSeeRegexp(String regexp, String flags) {
-        final WebElement body = driver.findElement(By.xpath("//*"));
-        final String bodyContent = body.getText();
-        Matcher matcher = buildMatcherForContent(regexp, flags, bodyContent);
-
-        takeScreenshot(driver);
+        boolean contentExists = seleniumInteractions.searchForContent(regexp, flags);
+        seleniumInteractions.takeScreenshot();
         
-        Assert.assertFalse(body.isDisplayed() && matcher.matches());
+        Assert.assertFalse(contentExists);
     }
 
     @Then("^(?:|I )should be on (.+)$")
@@ -107,7 +97,7 @@ public class BrowsingSteps {
     public void shouldSeeElementsKindOf(int count, String locator) {
         List<WebElement> elements = driver.findElements(By.cssSelector(locator));
 
-        takeScreenshot(driver);
+        seleniumInteractions.takeScreenshot();
         Assert.assertEquals(count, elements.size());
     }
     
@@ -115,39 +105,14 @@ public class BrowsingSteps {
     public void shouldNotSeeElementsKindOf(String locator) {
         List<WebElement> elements = driver.findElements(By.cssSelector(locator));
 
-        takeScreenshot(driver);
+        seleniumInteractions.takeScreenshot();
         Assert.assertEquals(0, elements.size());
-    }
-
-    private void takeScreenshot(WebDriver driver) {
-        if(driver instanceof TakeScreenshot) {
-            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            context.addScreenshot(screenshot);
-        }
-    }
-
-    private Matcher buildMatcherForContent(String regexp, String flags, String content) {
-        int flag = 0;
-        if(flags.contains("i")) {
-            flag |= Pattern.CASE_INSENSITIVE;
-        }
-        if(flags.contains("m")) {
-            flag |= Pattern.MULTILINE;
-        }
-        if(flags.contains("x")) {
-            flag |= Pattern.COMMENTS;
-        }
-
-        Pattern pattern = Pattern.compile(regexp, flag);
-        Matcher matcher = pattern.matcher(content);
-
-        return matcher;
     }
 
     private void assertOnPage(String url) {
         final String currentUrl = driver.getCurrentUrl();
 
-        takeScreenshot(driver);
+        seleniumInteractions.takeScreenshot();
         Assert.assertEquals(url, currentUrl);
     }
 }

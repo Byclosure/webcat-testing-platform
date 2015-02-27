@@ -1,11 +1,5 @@
 package com.byclosure.webcat.stepdefinitions.helpers;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,24 +22,5 @@ public class SelectorHelpers {
 
         String message = String.format("Can't find mapping from \"%s\" to a selector.", locator);
         throw new IllegalArgumentException(message);
-    }
-
-    public static WebElement findLinkElement(WebDriver driver, String locator) {
-        List<WebElement> elementsByText;
-        List<WebElement> elementsById;
-        List<WebElement> elementsByTitle;
-        List<WebElement> elementsByAlt;
-
-        if((elementsByText = driver.findElements(By.linkText(locator))).size() > 0) {
-            return elementsByText.get(0);
-        } else if((elementsById = driver.findElements(By.id(locator))).size() > 0) {
-            return  elementsById.get(0);
-        } else if((elementsByTitle = driver.findElements(By.cssSelector("a[title='" + locator + "']"))).size() > 0) {
-            return elementsByTitle.get(0);
-        } else if((elementsByAlt = driver.findElements(By.cssSelector("a > img[alt='" + locator + "']"))).size() > 0) {
-            return elementsByAlt.get(0);
-        } else {
-            throw new NoSuchElementException("\""+ locator +"\" not found");
-        }
     }
 }

@@ -14,6 +14,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class FormSteps {
+    private static final String SELECT_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(select\\))$";
+    private static final String CHECKBOX_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(checkbox\\))$";
+    private static final String RADIOBUTTON_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(radio\\))$";
+    private static final String FILEFIELD_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(file\\))$";
 
     private final WebDriver driver;
 
@@ -24,18 +28,13 @@ public class FormSteps {
 
     @When("^(?:|I )fill in the following:$")
     public void fillInTheFollowing(List<List<String>> formData) {
-        final String selectTagRegex = "^(.+\\S+)\\s*(?:\\(select\\))$";
-        final String checkBoxTagRegex = "^(.+\\S+)\\s*(?:\\(checkbox\\))$";
-        final String radioButtonRegex = "^(.+\\S+)\\s*(?:\\(radio\\))$";
-        final String fileFieldRegex = "^(.+\\S+)\\s*(?:\\(file\\))$";
-
         for(List<String> row : formData) {
             final String fieldName = row.get(0);
             final String fieldValue = row.get(1);
 
-            if(Pattern.matches(selectTagRegex, fieldName)) {
+            if(Pattern.matches(SELECT_TAG_REGEX, fieldName)) {
                 //    step %(I select "#{value}" from "#{$1}")
-            } else if(Pattern.matches(checkBoxTagRegex, fieldName)) {
+            } else if(Pattern.matches(CHECKBOX_TAG_REGEX, fieldName)) {
                 if("check".equals(fieldValue)) {
                     //    step %(I check "#{$1}")
                 } else if("uncheck".equals(fieldValue)) {
@@ -43,9 +42,9 @@ public class FormSteps {
                 } else {
                     throw new IllegalArgumentException("checkbox values: check|uncheck!");
                 }
-            } else if(Pattern.matches(radioButtonRegex, fieldName)) {
+            } else if(Pattern.matches(RADIOBUTTON_TAG_REGEX, fieldName)) {
                 //    step %{I choose "#{$1}"}
-            } else if(Pattern.matches(fileFieldRegex, fieldName)) {
+            } else if(Pattern.matches(FILEFIELD_TAG_REGEX, fieldName)) {
                 //    step %{I attach the file "#{value}" to "#{$1}"}
             } else {
                 fillFieldWith(fieldName, fieldValue);

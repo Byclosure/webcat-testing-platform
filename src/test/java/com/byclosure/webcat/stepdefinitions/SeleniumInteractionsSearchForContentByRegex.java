@@ -17,9 +17,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class SeleniumInteractionsSearchForContentByRegex {
-    private static final String PAGES_URL_PATH = "http://localhost:63342/webcat-testing-platform/com/byclosure/webcat/stepdefinitions/";
     private static final String MAIN_PAGE = "search_body.html";
     private static PhantomJSDriverService service;
 
@@ -48,7 +48,8 @@ public class SeleniumInteractionsSearchForContentByRegex {
         driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.phantomjs());
 
         seleniumInteractions = new SeleniumInteractions(driver, context);
-        driver.get(PAGES_URL_PATH + MAIN_PAGE);
+        final URL mainPageURL = getClass().getResource(MAIN_PAGE);
+        driver.get(mainPageURL.toString());
     }
 
     @Test

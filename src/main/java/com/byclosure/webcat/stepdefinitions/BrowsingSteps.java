@@ -27,15 +27,11 @@ public class BrowsingSteps {
     }
     
     @Given("^(?:|I )am on (.+)$")
+    @When("^(?:|I )go to (.+)$")
     public void iAmOn(String url) {
         this.gotToPage(url);
     }
-    
-    @When("^(?:|I )go to (.+)$")
-    public void iGoTo(String url) {
-        this.gotToPage(url);
-    }
-    
+
     private void gotToPage(String url) {
         UrlValidator urlValidator = new UrlValidator();
         urlValidator.isValid(url);

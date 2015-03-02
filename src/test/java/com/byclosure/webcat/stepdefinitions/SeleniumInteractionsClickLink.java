@@ -12,10 +12,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class SeleniumInteractionsClickLink {
-
-    private static final String PAGES_URL_PATH = "http://localhost:63342/webcat-testing-platform/com/byclosure/webcat/stepdefinitions/";
     private static final String MAIN_PAGE = "links.html";
     private static final String ID_LINK_PAGE = "id_link.html";
     private static final String IMAGE_ALT_LINK_PAGE = "image_alt_link.html";
@@ -26,7 +25,7 @@ public class SeleniumInteractionsClickLink {
     private WebDriver driver;
     private SeleniumInteractions seleniumInteractions;
     @Mock private IContext context;
-
+    
     @BeforeClass
     public static void setupEnv() throws IOException {
         String phantomJSPath = System.getProperty("phantomjs.binary");
@@ -43,39 +42,39 @@ public class SeleniumInteractionsClickLink {
     @Before
     public void setup() throws IOException {
         MockitoAnnotations.initMocks(this);
-
         driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.phantomjs());
 
         seleniumInteractions = new SeleniumInteractions(driver, context);
-        driver.get(PAGES_URL_PATH + MAIN_PAGE);
+        final URL mainPageURL = getClass().getResource(MAIN_PAGE);
+        driver.get(mainPageURL.toString());
     }
 
     @Test
     public void itShouldFindLinkByText() {
         seleniumInteractions.clickLink("text link");
-
-        Assert.assertEquals(PAGES_URL_PATH + TEXT_LINK_PAGE, driver.getCurrentUrl());
+        
+        Assert.assertTrue(driver.getCurrentUrl().endsWith(TEXT_LINK_PAGE));
     }
 
     @Test
     public void itShouldFindLinkByIdAttribute() {
         seleniumInteractions.clickLink("link_id");
 
-        Assert.assertEquals(PAGES_URL_PATH + ID_LINK_PAGE, driver.getCurrentUrl());
+        Assert.assertTrue(driver.getCurrentUrl().endsWith(ID_LINK_PAGE));
     }
 
     @Test
     public void itShouldFindLinkByTitleAttribute() {
         seleniumInteractions.clickLink("title link");
 
-        Assert.assertEquals(PAGES_URL_PATH + TITLE_LINK_PAGE, driver.getCurrentUrl());
+        Assert.assertTrue(driver.getCurrentUrl().endsWith(TITLE_LINK_PAGE));
     }
 
     @Test
     public void itShouldFindLinkByImageAltAttribute() {
         seleniumInteractions.clickLink("image alt text");
 
-        Assert.assertEquals(PAGES_URL_PATH + IMAGE_ALT_LINK_PAGE, driver.getCurrentUrl());
+        Assert.assertTrue(driver.getCurrentUrl().endsWith(IMAGE_ALT_LINK_PAGE));
     }
 
 }

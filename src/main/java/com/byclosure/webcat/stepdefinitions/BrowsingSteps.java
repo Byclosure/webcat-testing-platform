@@ -26,7 +26,11 @@ public class BrowsingSteps {
     @Given("^(?:|I )am on (.+)$")
     @When("^(?:|I )go to (.+)$")
     public void iAmOn(String url) {
-        this.gotToPage(url);
+        UrlValidator urlValidator = new UrlValidator();
+        urlValidator.isValid(url);
+        driver.get(url);
+
+        seleniumInteractions.takeScreenshot();
     }
 
     @When("^(?:|I )follow \"([^\"]*)\"$")
@@ -46,21 +50,9 @@ public class BrowsingSteps {
 
     @Then("^(?:|I )should be on (.+)$")
     public void shouldBeOnPage(String url) {
-        assertOnPage(url);
-    }
-
-    private void assertOnPage(String url) {
         final String currentUrl = driver.getCurrentUrl();
 
         seleniumInteractions.takeScreenshot();
         Assert.assertEquals(url, currentUrl);
-    }
-
-    private void gotToPage(String url) {
-        UrlValidator urlValidator = new UrlValidator();
-        urlValidator.isValid(url);
-        driver.get(url);
-
-        seleniumInteractions.takeScreenshot();
     }
 }

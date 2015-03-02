@@ -18,12 +18,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class FormSteps {
-    private final WebDriver driver;
     private final SeleniumInteractions seleniumInteractions;
     
     @Inject
     public FormSteps(WebDriver driver, IContext context) {
-        this.driver = driver;
         this.seleniumInteractions = new SeleniumInteractions(driver, context);
     }
 

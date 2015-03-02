@@ -147,11 +147,23 @@ public class SeleniumInteractions {
     
     private WebElement findButtonByValue(String value) {
         final List<WebElement> elements = driver.findElements(By.cssSelector("input[type='button'][value='" + value + "']"));
+        final List<WebElement> submitButtons = driver.findElements(By.cssSelector("input[type='submit'][value='" + value + "']"));
+        final List<WebElement> buttons = driver.findElements(By.cssSelector("button[value='" + value + "']"));
+        
+        elements.addAll(submitButtons);
+        elements.addAll(buttons);
+        
         return elements.size() > 0 ? elements.get(0) : null;
     }
     
     private WebElement findButtonByTitle(String title) {
         final List<WebElement> elements = driver.findElements(By.cssSelector("input[type='button'][title='" + title + "']"));
+        final List<WebElement> submitButtons = driver.findElements(By.cssSelector("input[type='submit'][title='" + title + "']"));
+        final List<WebElement> buttons = driver.findElements(By.cssSelector("button[title='" + title + "']"));
+        
+        elements.addAll(submitButtons);
+        elements.addAll(buttons);
+        
         return elements.size() > 0 ? elements.get(0) : null;
     }
     
@@ -161,9 +173,13 @@ public class SeleniumInteractions {
     }
     
     private WebElement findButtonByText(String buttonText) {
-        final List<WebElement> inputs = driver.findElements(By.cssSelector("input[type='button']"));
-        
         if(null != buttonText && !"".equals(buttonText)) {
+            final List<WebElement> inputs = driver.findElements(By.cssSelector("input[type='button']"));
+            final List<WebElement> submitButtons = driver.findElements(By.cssSelector("input[type='submit']"));
+            final List<WebElement> buttons = driver.findElements(By.tagName("button"));
+            inputs.addAll(submitButtons);
+            inputs.addAll(buttons);
+
             for(WebElement input : inputs) {
                 if(buttonText.equals(input.getText())){
                     return input;

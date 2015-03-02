@@ -6,6 +6,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({SeleniumInteractionsClickLink.class,
-        SeleniumInteractionsSearchForContentByText.class})
+        SeleniumInteractionsSearchForContentByText.class,
+        SeleniumInteractionsClickButton.class})
 public class WebStepsSuite {
 }

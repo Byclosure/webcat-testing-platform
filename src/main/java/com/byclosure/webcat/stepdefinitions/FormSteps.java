@@ -14,42 +14,11 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class FormSteps {
-    private static final String SELECT_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(select\\))$";
-    private static final String CHECKBOX_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(checkbox\\))$";
-    private static final String RADIOBUTTON_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(radio\\))$";
-    private static final String FILEFIELD_TAG_REGEX = "^(.+\\S+)\\s*(?:\\(file\\))$";
-
     private final WebDriver driver;
 
     @Inject
     public FormSteps(WebDriver driver) {
         this.driver = driver;
-    }
-
-    @When("^(?:|I )fill in the following:$")
-    public void fillInTheFollowing(List<List<String>> formData) {
-        for(List<String> row : formData) {
-            final String fieldName = row.get(0);
-            final String fieldValue = row.get(1);
-
-            if(Pattern.matches(SELECT_TAG_REGEX, fieldName)) {
-                //    step %(I select "#{value}" from "#{$1}")
-            } else if(Pattern.matches(CHECKBOX_TAG_REGEX, fieldName)) {
-                if("check".equals(fieldValue)) {
-                    //    step %(I check "#{$1}")
-                } else if("uncheck".equals(fieldValue)) {
-                    //    step %(I uncheck "#{$1}")
-                } else {
-                    throw new IllegalArgumentException("checkbox values: check|uncheck!");
-                }
-            } else if(Pattern.matches(RADIOBUTTON_TAG_REGEX, fieldName)) {
-                //    step %{I choose "#{$1}"}
-            } else if(Pattern.matches(FILEFIELD_TAG_REGEX, fieldName)) {
-                //    step %{I attach the file "#{value}" to "#{$1}"}
-            } else {
-                fillFieldWith(fieldName, fieldValue);
-            }
-        }
     }
 
     @When("^(?:|I )fill in \"([^\"]*)\" with \"([^\"]*)\"$")
@@ -73,7 +42,7 @@ public class FormSteps {
         }
     }
 
-    public List<WebElement> getFillableElements(WebDriver driver, String locator) {
+    private List<WebElement> getFillableElements(WebDriver driver, String locator) {
         final List<WebElement> labels = driver.findElements(By.cssSelector("label"));
         WebElement label = null;
         for(WebElement l : labels) {
@@ -90,35 +59,6 @@ public class FormSteps {
         }
     }
 
-//
-//    When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-//    fill_in(field, :with => value)
-//    end
-//
-//    When /^(?:|I )fill in "([^"]*)" with:$/ do |field, value|
-//    fill_in(field, :with => value)
-//    end
-//    When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
-//    select(value, :from => field)
-//    end
-//    When /^(?:|I )check "([^"]*)"$/ do |field|
-//    check(field)
-//    end
-//
-//    When /^(?:|I )uncheck "([^"]*)"$/ do |field|
-//    uncheck(field)
-//    end
-//    When /^(?:|I )choose "([^"]*)"$/ do |field|
-//    choose(field)
-//    end
-//
-//    When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |file, field|
-//    path = File.expand_path(File.join(SUPPORT_DIR,"attachments/#{file}"))
-//    raise RuntimeError, "file '#{path}' does not exists" unless File.exists?(path)
-//
-//    attach_file(field, path)
-//    end
-//
 //    Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|
 //    with_scope(parent) do
 //    field = find_field(field)
@@ -131,38 +71,7 @@ public class FormSteps {
 //            end
 //    end
 //
-//    Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |field, parent, value|
-//    with_scope(parent) do
-//    field = find_field(field)
-//    field_value = field.value
-//    if field_value.respond_to? :should_not
-//    field_value.should_not =~ /#{value}/
-//            else
-//    assert_no_match(/#{value}/, field_value)
-//    end
-//            end
-//    end
-//
-//    Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, parent|
-//    with_scope(parent) do
-//    field_checked = find_field(label)['checked']
-//            if field_checked.respond_to? :should
-//    field_checked.should be_true
-//    else
-//            assert field_checked
-//            end
-//    end
-//            end
-//    Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
-//    with_scope(parent) do
-//    field_checked = find_field(label)['checked']
-//            if field_checked.respond_to? :should
-//    field_checked.should be_false
-//    else
-//            assert !field_checked
-//            end
-//    end
-//            end
+
 //
 //    When /^(?:|I )press "([^"]*)"$/ do |button|
 //    click_button(button)
@@ -184,69 +93,5 @@ public class FormSteps {
 //    end
 //            end
 //
-//    When /^(?:I|i) select following values from "([^"]*)":$/ do |field, values|
-//    values = values.transpose.raw
-//    if values.size > 1
-//    raise 'table should have only one column in this step!'
-//            else
-//    values = values.first
-//            end
-//    values.each do |value|
-//    select(value, :from => field)
-//    end
-//            end
-//    When /^(?:I|i) unselect following values from "([^"]*)":$/ do |field, values|
-//    values = values.transpose.raw
-//    if values.size > 1
-//    raise 'table should have only one column in this step!'
-//            else
-//    values = values.first
-//            end
-//
-//    values.each do |value|
-//    unselect(value, :from => field)
-//    end
-//            end
-//
-//    Then /^the following values should be selected in "([^"]*)":$/ do |select_box, values|
-//    values = values.transpose.raw
-//    if values.size > 1
-//    raise 'table should have only one column in this step!'
-//            else
-//    values = values.first
-//            end
-//    select_box=find_field(select_box)
-//    unless select_box['multiple']
-//    raise "this is not multiple select box!"
-//            else
-//    values.each do |value|
-//            if select_box.respond_to?(:should)
-//    select_box.value.should include(value)
-//    else
-//            assert select_box.value.include?(value)
-//    end
-//            end
-//    end
-//            end
-//    Then /^the following values should not be selected in "([^"]*)":$/ do |select_box, values|
-//    values = values.transpose.raw
-//    if values.size > 1
-//    raise 'table should have only one column in this step!'
-//            else
-//    values = values.first
-//            end
-//
-//    select_box=find_field(select_box)
-//    unless select_box['multiple']
-//    raise "this is not multiple select box!"
-//            else
-//    values.each do |value|
-//            if select_box.respond_to?(:should)
-//    select_box.value.should_not include(value)
-//    else
-//            assert !select_box.value.include?(value)
-//    end
-//            end
-//    end
-//            end
+
 }

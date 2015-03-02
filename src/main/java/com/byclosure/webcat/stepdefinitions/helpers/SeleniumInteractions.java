@@ -28,14 +28,6 @@ public class SeleniumInteractions {
         return body.isDisplayed() && body.getText().contains(text);
     }
 
-    public boolean searchForContent(String regex, String flags) {
-        final WebElement body = driver.findElement(By.xpath("//*"));
-        final String bodyContent = body.getText();
-        Matcher matcher = buildMatcherForContent(regex, flags, bodyContent);
-
-        return body.isDisplayed() && matcher.matches();
-    }
-
     public void takeScreenshot() {
         if(driver instanceof TakeScreenshot) {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
@@ -44,18 +36,18 @@ public class SeleniumInteractions {
     }
 
     private WebElement findLinkElement(String locator) {
-        List<WebElement> elementsByText;
-        List<WebElement> elementsById;
-        List<WebElement> elementsByTitle;
-        List<WebElement> elementsByImageAlt;
+        final List<WebElement> elementsByText = driver.findElements(By.linkText(locator));
+        final List<WebElement> elementsById = driver.findElements(By.id(locator));
+        final List<WebElement> elementsByTitle = driver.findElements(By.cssSelector("a[title='" + locator + "']"));
+        final List<WebElement> elementsByImageAlt = driver.findElements(By.cssSelector("a > img[alt='" + locator + "']"));
 
-        if((elementsByText = driver.findElements(By.linkText(locator))).size() > 0) {
+        if(elementsByText.size() > 0) {
             return elementsByText.get(0);
-        } else if((elementsById = driver.findElements(By.id(locator))).size() > 0) {
+        } else if(elementsById.size() > 0) {
             return  elementsById.get(0);
-        } else if((elementsByTitle = driver.findElements(By.cssSelector("a[title='" + locator + "']"))).size() > 0) {
+        } else if(elementsByTitle.size() > 0) {
             return elementsByTitle.get(0);
-        } else if((elementsByImageAlt = driver.findElements(By.cssSelector("a > img[alt='" + locator + "']"))).size() > 0) {
+        } else if(elementsByImageAlt.size() > 0) {
             return elementsByImageAlt.get(0);
         } else {
             throw new NoSuchElementException("\""+ locator +"\" not found");

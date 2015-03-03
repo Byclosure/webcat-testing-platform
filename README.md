@@ -38,52 +38,57 @@ When I press [button text, id, title, value or CSS selector]
 `*` () means it's optional
 
 To use these steps in your features:
+
 1. add `com.byclosure.webcat.stepdefinitions` to your `CucumberOptions` glue, e.g.:
-```
-@CucumberOptions(format = {"pretty", "junit:target/junit-report.xml"},
-        monochrome = true, glue={"com.byclosure.webcat.stepdefinitions", "[the package where you have your step implementations]"})
-```
+
+    ```
+    @CucumberOptions(format = {"pretty", "junit:target/junit-report.xml"},
+            monochrome = true, glue={"com.byclosure.webcat.stepdefinitions", "[the package where you have your step implementations]"})
+    ```
 2. Add this to your `pom.xml`, in the end of the `<dependencies>` section:
-```
-<dependency>
-    <groupId>org.seleniumhq.selenium</groupId>
-    <artifactId>selenium-java</artifactId>
-    <version>2.39.0</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>info.cukes</groupId>
-    <artifactId>cucumber-guice</artifactId>
-    <version>1.1.2</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>com.google.inject</groupId>
-    <artifactId>guice</artifactId>
-    <version>3.0</version>
-    <scope>test</scope>
-</dependency>
-```
+
+    ```
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>2.39.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-guice</artifactId>
+        <version>1.1.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>3.0</version>
+        <scope>test</scope>
+    </dependency>
+    ```
 3. Create a Guice Module, to configure the WebDriver binding, example:
-```java
-public class ConfigurationModule extends AbstractModule {
-
-    @Override
-    protected void configure() {
+    
+    ```java
+    public class ConfigurationModule extends AbstractModule {
+    
+        @Override
+        protected void configure() {
+        }
+    
+        @Provides
+        WebDriver getWebDriver(){
+            // create an instance of selenium WebDriver
+            return driver;
+        }
     }
-
-    @Provides
-    WebDriver getWebDriver(){
-        // create an instance of selenium WebDriver
-        return driver;
-    }
-}
-```
-For more information about Guice, go to [its website](https://github.com/google/guice).
+    ```
+    For more information about Guice, go to [its website](https://github.com/google/guice).
 4. Create a `cucumber-guice.properties` file in yout test resources folder (typically `src/test/resources`), with the following content:
-```
-guiceModule=[path to your Guice Module]
-```
+    
+    ```
+    guiceModule=[path to your Guice Module]
+    ```
 5. Profit!
 
 #Contributing#

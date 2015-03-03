@@ -1,12 +1,10 @@
 package com.byclosure.webcat.stepdefinitions;
 
-import com.byclosure.webcat.context.IContext;
 import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
 import com.google.inject.Inject;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.apache.commons.validator.routines.UrlValidator;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
@@ -18,16 +16,14 @@ public class BrowsingSteps {
     private final SeleniumInteractions seleniumInteractions;
 
     @Inject
-    public BrowsingSteps(WebDriver driver, IContext context){
+    public BrowsingSteps(WebDriver driver){
         this.driver = driver;
-        this.seleniumInteractions = new SeleniumInteractions(driver, context);
+        this.seleniumInteractions = new SeleniumInteractions(driver);
     }
     
     @Given("^(?:|I )am on (.+)$")
     @When("^(?:|I )go to (.+)$")
     public void iAmOn(String url) {
-        UrlValidator urlValidator = new UrlValidator();
-        urlValidator.isValid(url);
         driver.get(url);
 
         seleniumInteractions.takeScreenshot();

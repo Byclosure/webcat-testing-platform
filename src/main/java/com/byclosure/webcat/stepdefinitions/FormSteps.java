@@ -1,28 +1,18 @@
 package com.byclosure.webcat.stepdefinitions;
 
-import com.byclosure.webcat.context.IContext;
 import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
 import com.google.inject.Inject;
-import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import junit.framework.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 public class FormSteps {
     private final SeleniumInteractions seleniumInteractions;
     
     @Inject
-    public FormSteps(WebDriver driver, IContext context) {
-        this.seleniumInteractions = new SeleniumInteractions(driver, context);
+    public FormSteps(WebDriver driver) {
+        this.seleniumInteractions = new SeleniumInteractions(driver);
     }
 
     @When("^(?:|I )fill in \"([^\"]*)\" with \"([^\"]*)\"$")

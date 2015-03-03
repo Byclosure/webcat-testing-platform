@@ -1,20 +1,16 @@
 package com.byclosure.webcat.stepdefinitions.helpers;
 
-import com.byclosure.webcat.context.IContext;
+import com.byclosure.webcat.context.Context;
 import org.openqa.selenium.*;
-import org.openqa.selenium.internal.selenesedriver.TakeScreenshot;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class SeleniumInteractions {
 
     private final WebDriver driver;
-    private final IContext context;
 
-    public SeleniumInteractions(WebDriver driver, IContext context) {
+    public SeleniumInteractions(WebDriver driver) {
         this.driver = driver;
-        this.context = context;
     }
 
     public void clickLink(String locator) {
@@ -36,13 +32,20 @@ public class SeleniumInteractions {
         final WebElement elementById = findElementById(field);
         final WebElement elementByName = findElementByName(field);
         final WebElement elementByText = findInputByText(field);
+        final WebElement elementByCss = findElementByCss(field);
 
         if(elementById != null) {
+            elementById.clear();
             elementById.sendKeys(value);
         } else if(elementByName != null) {
+            elementByName.clear();
             elementByName.sendKeys(value);
         } else if(elementByText != null) {
+            elementByText.clear();
             elementByText.sendKeys(value);
+        } else if(elementByCss != null){
+            elementByCss.clear();
+            elementByCss.sendKeys(value);
         } else {
             throw new NoSuchElementException("\"" + field + "\" not found.");
         }
@@ -64,9 +67,9 @@ public class SeleniumInteractions {
     }
 
     public void takeScreenshot() {
-        if(driver instanceof TakeScreenshot) {
+        if(driver instanceof TakesScreenshot) {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            context.addScreenshot(screenshot);
+            Context.getInstance().addScreenshot(screenshot);
         }
     }
 
@@ -75,6 +78,7 @@ public class SeleniumInteractions {
         final WebElement elementById = findElementById(locator);
         final WebElement elementByTitle = findLinkByTitle(locator);
         final WebElement elementByImageAlt = findLinkByImageAlt(locator);
+        final WebElement elementByCss = findElementByCss(locator);
 
         if(elementByText != null) {
             return elementByText;
@@ -84,6 +88,8 @@ public class SeleniumInteractions {
             return elementByTitle;
         } else if(elementByImageAlt != null) {
             return elementByImageAlt;
+        } else if(elementByCss != null) {
+            return elementByCss;
         } else {
             throw new NoSuchElementException("\""+ locator +"\" not found");
         }
@@ -94,6 +100,7 @@ public class SeleniumInteractions {
         final WebElement elementById = findElementById(locator);
         final WebElement elementByTitle = findButtonByTitle(locator);
         final WebElement elementByValue = findButtonByValue(locator);
+        final WebElement elementByCss = findElementByCss(locator);
 
         if(elementByText != null) {
             return elementByText;
@@ -103,9 +110,16 @@ public class SeleniumInteractions {
             return elementByTitle;
         } else if(elementByValue != null) {
             return elementByValue;
+        } else if(elementByCss != null) {
+            return elementByCss;
         } else {
             throw new NoSuchElementException("\""+ locator +"\" not found");
         }
+    }
+
+    private WebElement findElementByCss(String selector) {
+        final List<WebElement> elements = driver.findElements(By.cssSelector(selector));
+        return elements.size() > 0 ? elements.get(0) : null;
     }
     
     private WebElement findLinkByText(String text) {
@@ -181,7 +195,7 @@ public class SeleniumInteractions {
             inputs.addAll(buttons);
 
             for(WebElement input : inputs) {
-                if(buttonText.equals(input.getText())){
+                if(buttonText.equalsIgnoreCase(input.getText())){
                     return input;
                 }
             }

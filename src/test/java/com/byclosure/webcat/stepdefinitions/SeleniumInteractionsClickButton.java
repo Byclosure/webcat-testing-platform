@@ -1,12 +1,10 @@
 package com.byclosure.webcat.stepdefinitions;
 
-import com.byclosure.webcat.context.IContext;
 import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -24,8 +22,6 @@ public class SeleniumInteractionsClickButton {
     
     private WebDriver driver;
     private SeleniumInteractions seleniumInteractions;
-    @Mock
-    private IContext context;
 
     @BeforeClass
     public static void setupEnv() throws IOException {
@@ -45,7 +41,7 @@ public class SeleniumInteractionsClickButton {
         MockitoAnnotations.initMocks(this);
         driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.phantomjs());
 
-        seleniumInteractions = new SeleniumInteractions(driver, context);
+        seleniumInteractions = new SeleniumInteractions(driver);
         final URL mainPageURL = getClass().getResource(MAIN_PAGE);
         driver.get(mainPageURL.toString());
     }

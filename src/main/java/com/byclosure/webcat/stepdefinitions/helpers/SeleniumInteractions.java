@@ -13,11 +13,20 @@ public class SeleniumInteractions {
         this.driver = driver;
     }
 
+    /**
+     * Click on a link 
+     * @param locator the link locator. It can be the link's:
+     *                - text
+     *                - id
+     *                - title
+     *                - inner image alt
+     *                - css selector                
+     */
     public void clickLink(String locator) {
         WebElement linkElement = findLinkElement(locator);
         linkElement.click();
     }
-    
+
     public void clickButton(String locator){
         WebElement buttonElement = findButtonElement(locator);
         buttonElement.click();

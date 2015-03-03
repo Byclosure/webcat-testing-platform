@@ -1,6 +1,7 @@
 package com.byclosure.webcat.stepdefinitions;
 
 import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
+import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import org.mockito.MockitoAnnotations;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SeleniumInteractionsClickLink {
     private static final String MAIN_PAGE = "links.html";
@@ -50,28 +54,28 @@ public class SeleniumInteractionsClickLink {
     public void itShouldFindLinkByText() {
         seleniumInteractions.clickLink("text link");
         
-        Assert.assertTrue(driver.getCurrentUrl().endsWith(TEXT_LINK_PAGE));
+        assertThat(driver.getCurrentUrl(), endsWith(TEXT_LINK_PAGE));
     }
 
     @Test
     public void itShouldFindLinkByIdAttribute() {
         seleniumInteractions.clickLink("link_id");
 
-        Assert.assertTrue(driver.getCurrentUrl().endsWith(ID_LINK_PAGE));
+        assertThat(driver.getCurrentUrl(), endsWith(ID_LINK_PAGE));
     }
 
     @Test
     public void itShouldFindLinkByTitleAttribute() {
         seleniumInteractions.clickLink("title link");
 
-        Assert.assertTrue(driver.getCurrentUrl().endsWith(TITLE_LINK_PAGE));
+        assertThat(driver.getCurrentUrl(), endsWith(TITLE_LINK_PAGE));
     }
 
     @Test
     public void itShouldFindLinkByImageAltAttribute() {
         seleniumInteractions.clickLink("image alt text");
 
-        Assert.assertTrue(driver.getCurrentUrl().endsWith(IMAGE_ALT_LINK_PAGE));
+        assertThat(driver.getCurrentUrl(), endsWith(IMAGE_ALT_LINK_PAGE));
     }
 
 }

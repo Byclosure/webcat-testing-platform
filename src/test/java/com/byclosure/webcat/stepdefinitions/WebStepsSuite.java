@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({SeleniumInteractionsClickLink.class,
         SeleniumInteractionsSearchForContentByText.class,
         SeleniumInteractionsClickButton.class,
-        SeleniumInteractionsSearchForContentByText.class})
+        SeleniumInteractionsSearchForContentByText.class,
+        SeleniumStepsFillFormTextFields.class})
 public class WebStepsSuite {
 }

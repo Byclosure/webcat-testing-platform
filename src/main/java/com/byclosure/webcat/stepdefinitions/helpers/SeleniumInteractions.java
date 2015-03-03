@@ -127,8 +127,12 @@ public class SeleniumInteractions {
     }
 
     private WebElement findElementByCss(String selector) {
-        final List<WebElement> elements = driver.findElements(By.cssSelector(selector));
-        return elements.size() > 0 ? elements.get(0) : null;
+        if(selector.contains(" ")) { //we'll assume that if the selector has spaces it's not a css selector
+            return null;
+        } else {
+            final List<WebElement> elements = driver.findElements(By.cssSelector(selector));
+            return elements.size() > 0 ? elements.get(0) : null;
+        }
     }
     
     private WebElement findLinkByText(String text) {

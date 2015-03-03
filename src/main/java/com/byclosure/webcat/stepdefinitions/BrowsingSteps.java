@@ -22,13 +22,15 @@ public class BrowsingSteps {
     }
     
     @Given("^(?:|I )am on \"([^\"]*)\"$")
-    @When("^(?:|I )go to \"([^\"]*)\"$")
     public void iAmOn(String url) {
-        driver.get(url);
-
-        seleniumInteractions.takeScreenshot();
+        goToUrl(url);
     }
 
+    @When("^(?:|I )go to \"([^\"]*)\"$")
+    public void iGoTo(String url) {
+        goToUrl(url);
+    }
+    
     @When("^(?:|I )follow \"([^\"]*)\"$")
     public void followLink(String link) throws UnsupportedEncodingException {
         seleniumInteractions.clickLink(link);
@@ -44,11 +46,17 @@ public class BrowsingSteps {
         Assert.assertTrue(contentExists);
     }
 
-    @Then("^(?:|I )should be on (.+)$")
+    @Then("^(?:|I )should be on \"([^\"]*)\"$")
     public void shouldBeOnPage(String url) {
         final String currentUrl = driver.getCurrentUrl();
 
         seleniumInteractions.takeScreenshot();
         Assert.assertEquals(url, currentUrl);
+    }
+    
+    private void goToUrl(String url){
+        driver.get(url);
+
+        seleniumInteractions.takeScreenshot();
     }
 }

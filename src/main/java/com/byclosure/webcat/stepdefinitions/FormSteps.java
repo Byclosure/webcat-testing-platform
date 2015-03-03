@@ -4,7 +4,7 @@ import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
 import com.google.inject.Inject;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
 public class FormSteps {
@@ -22,7 +22,7 @@ public class FormSteps {
         seleniumInteractions.takeScreenshot();
     }
 
-    @Then("^the \"([^\"]*)\" field(?: within (.*))? should contain \"([^\"]*)\"$")
+    @Then("^the \"([^\"]*)\" field(?: within \"([^\"]*)\")? should contain \"([^\"]*)\"$")
     public void fieldShouldContain(String field, String parent, String value) {
         final boolean fieldContains = seleniumInteractions.formFieldContains(field, parent, value);
 

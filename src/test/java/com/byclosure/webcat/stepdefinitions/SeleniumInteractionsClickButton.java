@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -67,5 +68,60 @@ public class SeleniumInteractionsClickButton {
     @Test
     public void itShouldFindButtonElementById() {
         seleniumInteractions.clickButton("button_id");
+    }
+
+    @Test
+    public void itShouldFindInputButtonByValue() {
+        seleniumInteractions.clickButton("Input Button Value");
+    }
+
+    @Test
+    public void itShouldFindInputButtonByTitle() {
+        seleniumInteractions.clickButton("input button title");
+    }
+
+    @Test
+    public void itShouldFindInputButtonById() {
+        seleniumInteractions.clickButton("input_button_id");
+    }
+
+    @Test
+    public void itShouldFindInputSubmitByValue() {
+        seleniumInteractions.clickButton("Input Button Submit");
+    }
+
+    @Test
+    public void itShouldFindInputSubmitByTitle() {
+        seleniumInteractions.clickButton("input submit title");
+    }
+
+    @Test
+    public void itShouldFindInputSubmitById() {
+        seleniumInteractions.clickButton("input_submit_id");
+    }
+
+    @Test
+    public void itShouldFindSubmitButtonByText() {
+        seleniumInteractions.clickButton("Button submit");
+    }
+
+    @Test
+    public void itShouldFindSubmitButtonByValue() {
+        seleniumInteractions.clickButton("button submit with value");
+    }
+
+    @Test
+    public void itShouldFindSubmitButtonByTitle() {
+        seleniumInteractions.clickButton("button submit title");
+    }
+
+    @Test
+    public void itShouldFindSubmitButtonById() {
+        seleniumInteractions.clickButton("button_submit_id");
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void itShouldRaiseNoSuchElementWhenButtonDoesNotExist() {
+        seleniumInteractions.clickButton("No Button");
     }
 }

@@ -1,0 +1,81 @@
+package com.byclosure.webcat.stepdefinitions;
+
+import com.byclosure.webcat.stepdefinitions.helpers.SeleniumInteractions;
+import org.hamcrest.CoreMatchers;
+import org.junit.*;
+import org.mockito.MockitoAnnotations;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+public class SeleniumInteractionsClickLink {
+    private static final String MAIN_PAGE = "links.html";
+    private static final String ID_LINK_PAGE = "id_link.html";
+    private static final String IMAGE_ALT_LINK_PAGE = "image_alt_link.html";
+    private static final String TEXT_LINK_PAGE = "text_link.html";
+    private static final String TITLE_LINK_PAGE = "title_link.html";
+    private static PhantomJSDriverService service;
+
+    private WebDriver driver;
+    private SeleniumInteractions seleniumInteractions;
+
+    @BeforeClass
+    public static void setupEnv() throws IOException {
+        String phantomJSPath = System.getProperty("phantomjs.binary");
+        File phantomJSExec = new File(phantomJSPath);
+        service = new PhantomJSDriverService.Builder().usingPhantomJSExecutable(phantomJSExec).build();
+        service.start();
+    }
+
+    @AfterClass
+    public static void tearDownEnv() {
+        service.stop();
+    }
+
+    @Before
+    public void setup() throws IOException {
+        MockitoAnnotations.initMocks(this);
+        driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.phantomjs());
+
+        seleniumInteractions = new SeleniumInteractions(driver);
+        final URL mainPageURL = getClass().getResource(MAIN_PAGE);
+        driver.get(mainPageURL.toString());
+    }
+
+    @Test
+    public void itShouldFindLinkByText() {
+        seleniumInteractions.clickLink("text link");
+        
+        assertThat(driver.getCurrentUrl(), endsWith(TEXT_LINK_PAGE));
+    }
+
+    @Test
+    public void itShouldFindLinkByIdAttribute() {
+        seleniumInteractions.clickLink("link_id");
+
+        assertThat(driver.getCurrentUrl(), endsWith(ID_LINK_PAGE));
+    }
+
+    @Test
+    public void itShouldFindLinkByTitleAttribute() {
+        seleniumInteractions.clickLink("title link");
+
+        assertThat(driver.getCurrentUrl(), endsWith(TITLE_LINK_PAGE));
+    }
+
+    @Test
+    public void itShouldFindLinkByImageAltAttribute() {
+        seleniumInteractions.clickLink("image alt text");
+
+        assertThat(driver.getCurrentUrl(), endsWith(IMAGE_ALT_LINK_PAGE));
+    }
+
+}

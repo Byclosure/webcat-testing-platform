@@ -108,7 +108,7 @@
                 <version>2.14.1</version>
                 <configuration>
                     <includes>
-                        <!--<include>**/ClientSuite.java</include>-->
+                        <include>**/ClientSuite.java</include>
                         <include>**/WebStepsSuite.java</include>
                         <include>**/WebStepsRunner.java</include>
                     </includes>

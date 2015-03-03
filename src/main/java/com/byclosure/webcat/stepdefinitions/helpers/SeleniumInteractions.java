@@ -38,26 +38,9 @@ public class SeleniumInteractions {
     }
     
     public void fillFormTextField(String field, String value){
-        final WebElement elementById = findElementById(field);
-        final WebElement elementByName = findElementByName(field);
-        final WebElement elementByText = findInputByText(field);
-        final WebElement elementByCss = findElementByCss(field);
-
-        if(elementById != null) {
-            elementById.clear();
-            elementById.sendKeys(value);
-        } else if(elementByName != null) {
-            elementByName.clear();
-            elementByName.sendKeys(value);
-        } else if(elementByText != null) {
-            elementByText.clear();
-            elementByText.sendKeys(value);
-        } else if(elementByCss != null){
-            elementByCss.clear();
-            elementByCss.sendKeys(value);
-        } else {
-            throw new NoSuchElementException("\"" + field + "\" not found.");
-        }
+        final WebElement inputElement = findInputElement(driver, field);
+        inputElement.clear();
+        inputElement.sendKeys(value);
     }
     
     public boolean formFieldContains(String field, String parent, String value) {
@@ -69,7 +52,7 @@ public class SeleniumInteractions {
         }
         
         final WebElement parentElement = driver.findElement(By.cssSelector(parentSelector));
-        final WebElement element = parentElement.findElement(By.cssSelector(field));
+        final WebElement element = findInputElement(parentElement, field);
         final String elementValue = element.getText();
         
         return elementValue.contains(value);
@@ -81,13 +64,32 @@ public class SeleniumInteractions {
             Context.getInstance().addScreenshot(screenshot);
         }
     }
+    
+    private WebElement findInputElement(SearchContext parent, String locator) {
+        final WebElement elementById = findElementById(parent, locator);
+        final WebElement elementByName = findElementByName(parent, locator);
+        final WebElement elementByText = findInputByText(parent, locator);
+        final WebElement elementByCss = findElementByCss(parent, locator);
 
+        if(elementById != null) {
+            return elementById;
+        } else if(elementByName != null) {
+            return elementByName;
+        } else if(elementByText != null) {
+            return elementByText;
+        } else if(elementByCss != null){
+            return elementByCss;
+        } else {
+            throw new NoSuchElementException("\"" + locator + "\" not found.");
+        }
+    }
+    
     private WebElement findLinkElement(String locator) {
         final WebElement elementByText = findLinkByText(locator);
-        final WebElement elementById = findElementById(locator);
+        final WebElement elementById = findElementById(driver, locator);
         final WebElement elementByTitle = findLinkByTitle(locator);
         final WebElement elementByImageAlt = findLinkByImageAlt(locator);
-        final WebElement elementByCss = findElementByCss(locator);
+        final WebElement elementByCss = findElementByCss(driver, locator);
 
         if(elementByText != null) {
             return elementByText;
@@ -106,10 +108,10 @@ public class SeleniumInteractions {
     
     private WebElement findButtonElement(String locator) {
         final WebElement elementByText = findButtonByText(locator);
-        final WebElement elementById = findElementById(locator);
+        final WebElement elementById = findElementById(driver, locator);
         final WebElement elementByTitle = findButtonByTitle(locator);
         final WebElement elementByValue = findButtonByValue(locator);
-        final WebElement elementByCss = findElementByCss(locator);
+        final WebElement elementByCss = findElementByCss(driver, locator);
 
         if(elementByText != null) {
             return elementByText;
@@ -126,11 +128,11 @@ public class SeleniumInteractions {
         }
     }
 
-    private WebElement findElementByCss(String selector) {
+    private WebElement findElementByCss(SearchContext parent, String selector) {
         if(selector.contains(" ")) { //we'll assume that if the selector has spaces it's not a css selector
             return null;
         } else {
-            final List<WebElement> elements = driver.findElements(By.cssSelector(selector));
+            final List<WebElement> elements = parent.findElements(By.cssSelector(selector));
             return elements.size() > 0 ? elements.get(0) : null;
         }
     }
@@ -150,8 +152,8 @@ public class SeleniumInteractions {
         return elementsByImageAlt.size() > 0 ? elementsByImageAlt.get(0) : null;
     }
 
-    private WebElement findInputByText(String locator) {
-        final List<WebElement> labels = driver.findElements(By.cssSelector("label"));
+    private WebElement findInputByText(SearchContext parent, String locator) {
+        final List<WebElement> labels = parent.findElements(By.cssSelector("label"));
         for(WebElement l : labels) {
             if(locator.equals(l.getText())) {
                 String inputId = l.getAttribute("for");
@@ -166,9 +168,9 @@ public class SeleniumInteractions {
         }
         return null;
     }
-    
-    private WebElement findElementByName(String name){
-        final List<WebElement> elementsByName =  driver.findElements(By.name(name));
+
+    private WebElement findElementByName(SearchContext parent, String name){
+        final List<WebElement> elementsByName =  parent.findElements(By.name(name));
         return elementsByName.size() > 0 ? elementsByName.get(0) : null;
     }
     
@@ -193,12 +195,12 @@ public class SeleniumInteractions {
         
         return elements.size() > 0 ? elements.get(0) : null;
     }
-    
-    private WebElement findElementById(String id) {
-        final List<WebElement> elements = driver.findElements(By.id(id));
+
+    private WebElement findElementById(SearchContext parent, String id) {
+        final List<WebElement> elements = parent.findElements(By.id(id));
         return elements.size() > 0 ? elements.get(0) : null;
     }
-    
+
     private WebElement findButtonByText(String buttonText) {
         final List<WebElement> inputs = driver.findElements(By.cssSelector("input[type='button']"));
         final List<WebElement> submitButtons = driver.findElements(By.cssSelector("input[type='submit']"));

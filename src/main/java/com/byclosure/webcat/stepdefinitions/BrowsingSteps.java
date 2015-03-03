@@ -21,8 +21,8 @@ public class BrowsingSteps {
         this.seleniumInteractions = new SeleniumInteractions(driver);
     }
     
-    @Given("^(?:|I )am on (.+)$")
-    @When("^(?:|I )go to (.+)$")
+    @Given("^(?:|I )am on \"([^\"]*)\"$")
+    @When("^(?:|I )go to \"([^\"]*)\"$")
     public void iAmOn(String url) {
         driver.get(url);
 

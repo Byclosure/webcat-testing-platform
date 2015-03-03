@@ -196,17 +196,15 @@ public class SeleniumInteractions {
     }
     
     private WebElement findButtonByText(String buttonText) {
-        if(null != buttonText && !"".equals(buttonText)) {
-            final List<WebElement> inputs = driver.findElements(By.cssSelector("input[type='button']"));
-            final List<WebElement> submitButtons = driver.findElements(By.cssSelector("input[type='submit']"));
-            final List<WebElement> buttons = driver.findElements(By.tagName("button"));
-            inputs.addAll(submitButtons);
-            inputs.addAll(buttons);
+        final List<WebElement> inputs = driver.findElements(By.cssSelector("input[type='button']"));
+        final List<WebElement> submitButtons = driver.findElements(By.cssSelector("input[type='submit']"));
+        final List<WebElement> buttons = driver.findElements(By.tagName("button"));
+        inputs.addAll(submitButtons);
+        inputs.addAll(buttons);
 
-            for(WebElement input : inputs) {
-                if(buttonText.equalsIgnoreCase(input.getText())){
-                    return input;
-                }
+        for(WebElement input : inputs) {
+            if(buttonText.equalsIgnoreCase(input.getText())){
+                return input;
             }
         }
         

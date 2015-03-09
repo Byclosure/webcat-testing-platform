@@ -28,4 +28,11 @@ public abstract class PageObject implements IPageObject {
     public <P extends IPageObject> P getPageObject(String name) {
         return navigationService.getPage(name);
     }
+
+
+    public void takeScreenshot(String methodName) {
+        takeScreenshotImpl(methodName);
+    }
+
+    protected abstract void takeScreenshotImpl(String methodName);
 }

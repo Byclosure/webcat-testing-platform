@@ -1,13 +1,17 @@
 package com.byclosure.webcat.webcattestingplatform;
 
+import com.byclosure.webcat.webcattestingplatform.criterias.ICriteria;
 import com.byclosure.webcat.webcattestingplatform.exceptions.InvalidPageObjectException;
 import com.byclosure.webcat.webcattestingplatform.exceptions.PageObjectNotFoundException;
 import com.byclosure.webcat.webcattestingplatform.pageobjects.IPageObject;
-import com.byclosure.webcat.webcattestingplatform.criterias.ICriteria;
+import com.byclosure.webcat.webcattestingplatform.pageobjects.NullPageObject;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NavigationService {
     /**
@@ -62,6 +66,10 @@ public class NavigationService {
         NavigationService navigationService = new NavigationService(errorPageObjectCriterias, errorPageObjects, driver);
 
         return pageFactoryService.register(criteria, pageFactory, navigationService);
+    }
+
+    public NullPageObject getNullPage() {
+        return new NullPageObject(driver, this);
     }
 
     public void registerErrorPage(String pageObjectName, ICriteria criteria, IPageObjectFactory pageFactory) {

@@ -37,6 +37,9 @@ public class NavigationServiceWithDummyPageObject {
         public TestPageObject(WebDriver driver, NavigationService navigationService) {
             super(driver, navigationService);
         }
+
+        @Override
+        protected void takeScreenshotImpl(String methodName) {}
     }
 
     private class TestPageCriteria extends Criteria {

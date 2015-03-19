@@ -18,24 +18,67 @@ To install this library, add the following to your `pom.xml`.
 See the section [What are page objects and how to write them?](http://www.webcat.byclosure.com/user-manual.html#what-page-objects) in the Webcat Project website, to know how to use the `NavigationService`.
 
 ###Automated steps
-This library also provides a set of steps already automated for you to start writing features right away. These are the implemented steps:
+This library also provides a set of steps already automated for you to start writing features right away. These use an underlying API that is also available to automators in the form of static methods of the class SeleniumInteractions:
 
 **Browsing steps:**
 ```cucumber
 Given I am on "[url]"
 When I go to "[url]"
+```
+Use
+```java
+void gotoUrl(String url)
+```
+```cucumber
 When I follow "[link text, name, id, inner image alt text or CSS selector]"
+```
+Uses
+```java
+void clickLink(String locator)
+```
+```cucumber
 Then I should see "[text]"
+```
+Uses
+```java
+boolean searchForContent(String text)
+```
+```cucumber
 Then I should be on "[url]"
+```
+Uses
+```java
+String getCurrentUrl()
 ```
 
 **Form steps:**
 ```cucumber
 When I fill in "[field id, name, text or CSS selector]" with "[value]"
+```
+Uses
+```java
+void fillFormTextField(String field, String value)
+```
+```cucumber
 Then the "[field id, name, text or CSS selector]" field (within [field CSS selector])* should contain "[value]"
+```
+Uses
+```java
+void formFieldContains(String field, String parent, String value)
+```
+```cucumber
 When I press [button text, id, title, value or CSS selector]
 ```
+Uses
+```java
+void clickButton(String locator)
+```
 `*` () means it's optional
+
+The library also provides a helper method to take screenshots:
+```java
+void takeScreenshot()
+```
 
 To use these steps in your features:
 
